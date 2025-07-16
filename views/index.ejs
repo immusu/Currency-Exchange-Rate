@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Currency Exchange</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <h1>Exchange Rates (Base: <%= base %>)</h1>
+  <table>
+    <tr>
+      <th>Currency</th>
+      <th>Rate</th>
+    </tr>
+    <% for (let code in rates) { %>
+      <tr>
+        <td><%= code %></td>
+        <td><%= rates[code] %></td>
+      </tr>
+    <% } %>
+  </table>
+</body>
+</html>
