@@ -7,12 +7,12 @@
 </head>
 
 <body>
-  <h1>Currency Converter</h1>
+  <h1>Currency Converter Pro</h1>
 
   <form action="/convert" method="GET">
-    <input type="number" name="amount" step="0.01" placeholder="Enter amount" required>
+    <input type="number" name="amount" step="1.00" placeholder="Enter amount" required>
     
-    <select name="from" required>
+        <select name="from" required>
       <% for (let code in rates) { %>
         <option value="<%= code %>"><%= code %></option>
       <% } %>
@@ -32,6 +32,33 @@
   <% if (result) { %>
     <h2>Result: <%= amount %> <%= from %> = <%= result %> <%= to %></h2>
   <% } %>
+
+  <div class="all-rates-section">
+    <form action="/all-rates" method="GET" class="rates-form">
+      <select name="base" required>
+        <% for (let code in rates) { %>
+          <option value="<%= code %>" <%= (locals.selectedBase === code) ? 'selected' : '' %>><%= code %></option>
+        <% } %>
+      </select>
+      <button type="submit">Show All Exchange Rates</button>
+    </form>
+
+    <% if (locals.showAllRates) { %>
+      <div class="rates-list">
+        <h3>Exchange Rates for <%= selectedBase %></h3>
+        <div class="rates-grid">
+          <% for (let code in rates) { %>
+            <% if (code !== selectedBase) { %>
+              <div class="rate-item">
+                <strong><%= code %></strong>
+                <span><%= rates[code].toFixed(2) %></span>
+              </div>
+            <% } %>
+          <% } %>
+        </div>
+      </div>
+    <% } %>
+  </div>
 </body>
 
 </html>
