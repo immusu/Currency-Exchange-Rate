@@ -2,26 +2,36 @@
 <html>
 <head>
   <title>Currency Exchange</title>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background-color: #f2f2f2; }
-  </style>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
-  <h1>Exchange Rates (Base: <%= base %>)</h1>
-  <table>
-    <tr>
-      <th>Currency</th>
-      <th>Rate</th>
-    </tr>
-    <% for (let code in rates) { %>
-      <tr>
-        <td><%= code %></td>
-        <td><%= rates[code] %></td>
-      </tr>
-    <% } %>
-  </table>
+  <h1>Currency Converter</h1>
+
+  <form action="/convert" method="GET">
+    <input type="number" name="amount" step="0.01" placeholder="Enter amount" required>
+    
+    <select name="from" required>
+      <% for (let code in rates) { %>
+        <option value="<%= code %>"><%= code %></option>
+      <% } %>
+    </select>
+
+    <span>→</span>
+
+    <select name="to" required>
+      <% for (let code in rates) { %>
+        <option value="<%= code %>"><%= code %></option>
+      <% } %>
+    </select>
+
+    <button type="submit">Convert</button>
+  </form>
+
+  <% if (result) { %>
+    <h2>Result: <%= amount %> <%= from %> = <%= result %> <%= to %></h2>
+  <% } %>
 </body>
+
 </html>

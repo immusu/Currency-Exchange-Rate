@@ -13,12 +13,45 @@ app.get('/', async (req, res) => {
     const rates = response.data.conversion_rates;
     const base = response.data.base_code;
 
-    res.render('index', { rates, base });
+    res.render('index', {
+      rates,
+      base,
+      amount: '',
+      from: '',
+      to: '',
+      result: null,
+    });
   } catch (error) {
-    console.error('Error fetching data:', error.message);
+    console.error(error);
     res.send('Error fetching exchange rates.');
   }
 });
+
+
+app.get('/convert', async (req, res) => {
+  try {
+    const { amount, from, to } = req.query;
+    const response = await axios.get(API_URL);
+    const rates = response.data.conversion_rates;
+
+    // Convert input amount
+    const amountInBase = amount / rates[from];     // Convert to USD
+    const convertedAmount = amountInBase * rates[to]; // Convert to target
+
+    res.render('index', {
+      rates,
+      base: response.data.base_code,
+      amount,
+      from,
+      to,
+      result: convertedAmount.toFixed(2),
+    });
+  } catch (error) {
+    console.error(error);
+    res.send('Error during conversion.');
+  }
+});
+
 
 const PORT = 3000;
 app.listen(PORT, () => {
