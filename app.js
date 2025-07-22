@@ -58,8 +58,8 @@ app.get('/convert', async (req, res) => {
     const rates = response.data.conversion_rates;
 
     // Convert input amount
-    const amountInBase = amount / rates[from];     // Convert to USD
-    const convertedAmount = amountInBase * rates[to]; // Convert to target
+    const amountInBase = amount / rates[from];
+    const convertedAmount = amountInBase * rates[to];
 
     res.render('index', {
       rates,
